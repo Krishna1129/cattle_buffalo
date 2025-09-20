@@ -1,1 +1,1 @@
-web: gunicorn --workers 1 --worker-class gthread --threads 2 --timeout 300 --keep-alive 5 --max-requests 5 --preload app:app
+web: gunicorn app:app --workers 1 --timeout 300 --preload
