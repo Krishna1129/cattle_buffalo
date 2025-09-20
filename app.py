@@ -15,7 +15,6 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 if os.environ.get('FLASK_ENV') == 'production':
     app.config['DEBUG'] = False
     app.config['TESTING'] = False
-    app.config['SERVER_NAME'] = os.environ.get('RENDER_EXTERNAL_URL', '').replace('https://', '').replace('http://', '')
 else:
     app.config['DEBUG'] = True
 
@@ -62,8 +61,9 @@ def load_breed_model(model_path, num_classes):
     return model
 
 # Load models globally
-cattle_model = load_cattle_model('models/best_cow_buffalo_none_classifier.pth')
-breed_model = load_breed_model('models/breed_classifier.pth', len(breed_names))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+cattle_model = load_cattle_model(os.path.join(BASE_DIR, 'models', 'best_cow_buffalo_none_classifier.pth'))
+breed_model = load_breed_model(os.path.join(BASE_DIR, 'models', 'breed_classifier.pth'), len(breed_names))
 
 # -----------------------------
 # Prediction Functions
@@ -167,4 +167,5 @@ def internal_error(error):
 if __name__ == '__main__':
     # Get port from environment variable or use 5000 as default
     port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
     app.run(host='0.0.0.0', port=port)
