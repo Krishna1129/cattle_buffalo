@@ -15,6 +15,8 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 if os.environ.get('FLASK_ENV') == 'production':
     app.config['DEBUG'] = False
     app.config['TESTING'] = False
+    # Ensure static files are served
+    app.config['PREFERRED_URL_SCHEME'] = 'https'
 else:
     app.config['DEBUG'] = True
 
@@ -167,5 +169,5 @@ def internal_error(error):
 if __name__ == '__main__':
     # Get port from environment variable or use 5000 as default
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=False)
     app.run(host='0.0.0.0', port=port)
