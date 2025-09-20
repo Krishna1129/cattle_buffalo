@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}FAQ - Cattle & Breed Classifier{% endblock %}
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="main-card">
+                    <h1 class="text-center mb-4">
+                        <i class="fas fa-question-circle"></i> Frequently Asked Questions
+                    </h1>
+                    
+                    <div class="faq-section">
+                        <div class="faq-item" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            <div class="faq-question">
+                                <h3><i class="fas fa-caret-right"></i> What types of images work best with the classifier?</h3>
+                            </div>
+                            <div class="collapse show" id="faq1">
+                                <div class="faq-answer">
+                                    <p>For best results, use clear, well-lit images where the animal is clearly visible. The image should:</p>
+                                    <ul>
+                                        <li>Show the entire animal (or at least most of it)</li>
+                                        <li>Be well-lit and in focus</li>
+                                        <li>Have minimal background clutter</li>
+                                        <li>Be in JPG, JPEG, or PNG format</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            <div class="faq-question">
+                                <h3><i class="fas fa-caret-right"></i> How accurate is the classification?</h3>
+                            </div>
+                            <div class="collapse" id="faq2">
+                                <div class="faq-answer">
+                                    <p>Our model achieves:</p>
+                                    <ul>
+                                        <li>97% accuracy in distinguishing between cows and buffaloes</li>
+                                        <li>89% accuracy in breed classification</li>
+                                        <li>Results are shown with confidence scores</li>
+                                        <li>For breed classification, we only proceed if the initial classification confidence is above 60%</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            <div class="faq-question">
+                                <h3><i class="fas fa-caret-right"></i> What breeds can the system identify?</h3>
+                            </div>
+                            <div class="collapse" id="faq3">
+                                <div class="faq-answer">
+                                    <p>The system can identify multiple breeds including:</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>Cow Breeds:</h4>
+                                            <ul>
+                                                <li>Holstein Friesian</li>
+                                                <li>Jersey</li>
+                                                <li>Gir</li>
+                                                <li>Sahiwal</li>
+                                                <li>And many more...</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>Buffalo Breeds:</h4>
+                                            <ul>
+                                                <li>Murrah</li>
+                                                <li>Surti</li>
+                                                <li>Mehsana</li>
+                                                <li>Jaffrabadi</li>
+                                                <li>And more...</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            <div class="faq-question">
+                                <h3><i class="fas fa-caret-right"></i> Tips for Better Results</h3>
+                            </div>
+                            <div class="collapse" id="faq4">
+                                <div class="faq-answer">
+                                    <ol>
+                                        <li>Take photos in good lighting conditions</li>
+                                        <li>Ensure the animal is the main focus of the image</li>
+                                        <li>Try to capture the animal's distinctive features</li>
+                                        <li>Use high-resolution images when possible</li>
+                                        <li>Avoid heavy image filters or editing</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            <div class="faq-question">
+                                <h3><i class="fas fa-caret-right"></i> How can I improve accuracy?</h3>
+                            </div>
+                            <div class="collapse" id="faq5">
+                                <div class="faq-answer">
+                                    <p>To get the most accurate results:</p>
+                                    <ul>
+                                        <li>Use multiple angles if first attempt is uncertain</li>
+                                        <li>Ensure good lighting and clear visibility</li>
+                                        <li>Check the confidence score - higher is better</li>
+                                        <li>Consider time of day and lighting conditions</li>
+                                        <li>Minimize motion blur in photos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add smooth animation to FAQ items
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const icon = item.querySelector('.fa-caret-right');
+            icon.style.transform = icon.style.transform === 'rotate(90deg)' ? 'rotate(0deg)' : 'rotate(90deg)';
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Usage Guide - Cattle & Breed Classifier{% endblock %}
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="main-card">
+                    <h1 class="text-center mb-4">
+                        <i class="fas fa-book"></i> Usage Guide
+                    </h1>
+                    
+                    <div class="guide-section">
+                        <div class="guide-card">
+                            <h2>Getting Started</h2>
+                            <div class="guide-content">
+                                <p>Welcome to the Cattle & Breed Classifier! This guide will help you get the most accurate results from our AI-powered system.</p>
+                                
+                                <div class="quick-tips">
+                                    <h3><i class="fas fa-lightbulb"></i> Quick Tips</h3>
+                                    <ul>
+                                        <li>Use clear, well-lit images</li>
+                                        <li>Ensure the animal is clearly visible</li>
+                                        <li>Avoid blurry or dark photos</li>
+                                        <li>Include the whole animal in the frame</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="guide-card">
+                            <h2>Step-by-Step Instructions</h2>
+                            <div class="guide-steps">
+                                <div class="guide-step">
+                                    <div class="step-header">
+                                        <span class="step-number">1</span>
+                                        <h4>Prepare Your Image</h4>
+                                    </div>
+                                    <div class="step-content">
+                                        <p>Select a clear photograph of the cattle you want to classify. The image should:</p>
+                                        <ul>
+                                            <li>Be in JPG, JPEG, or PNG format</li>
+                                            <li>Show the animal clearly</li>
+                                            <li>Be taken in good lighting</li>
+                                            <li>Have minimal background distractions</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="guide-step">
+                                    <div class="step-header">
+                                        <span class="step-number">2</span>
+                                        <h4>Upload Your Image</h4>
+                                    </div>
+                                    <div class="step-content">
+                                        <p>Upload your image using one of these methods:</p>
+                                        <ol>
+                                            <li>Click the upload area to browse your files</li>
+                                            <li>Drag and drop your image onto the upload area</li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <div class="guide-step">
+                                    <div class="step-header">
+                                        <span class="step-number">3</span>
+                                        <h4>Review Initial Classification</h4>
+                                    </div>
+                                    <div class="step-content">
+                                        <p>The system will first determine if the image contains a cow or buffalo:</p>
+                                        <ul>
+                                            <li>View the classification result</li>
+                                            <li>Check the confidence score</li>
+                                            <li>Ensure confidence is above 60% for best results</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="guide-step">
+                                    <div class="step-header">
+                                        <span class="step-number">4</span>
+                                        <h4>Breed Detection</h4>
+                                    </div>
+                                    <div class="step-content">
+                                        <p>If the initial classification is successful:</p>
+                                        <ul>
+                                            <li>Click "Detect Breed" button</li>
+                                            <li>Wait for breed analysis</li>
+                                            <li>View breed classification and confidence score</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="guide-card">
+                            <h2>Understanding Results</h2>
+                            <div class="guide-content">
+                                <h3>Confidence Scores</h3>
+                                <div class="confidence-levels">
+                                    <div class="confidence-level">
+                                        <span class="level high">90-100%</span>
+                                        <p>Very high confidence - Extremely reliable prediction</p>
+                                    </div>
+                                    <div class="confidence-level">
+                                        <span class="level good">70-89%</span>
+                                        <p>Good confidence - Reliable prediction</p>
+                                    </div>
+                                    <div class="confidence-level">
+                                        <span class="level moderate">60-69%</span>
+                                        <p>Moderate confidence - Acceptable prediction</p>
+                                    </div>
+                                    <div class="confidence-level">
+                                        <span class="level low">&lt; 60%</span>
+                                        <p>Low confidence - Consider retaking photo</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="guide-card">
+                            <h2>Troubleshooting</h2>
+                            <div class="guide-content">
+                                <div class="troubleshooting-tips">
+                                    <h3>Common Issues</h3>
+                                    <div class="issue">
+                                        <h4>Low Confidence Score</h4>
+                                        <ul>
+                                            <li>Try a different angle</li>
+                                            <li>Improve lighting conditions</li>
+                                            <li>Reduce background clutter</li>
+                                            <li>Ensure the animal is clearly visible</li>
+                                        </ul>
+                                    </div>
+                                    <div class="issue">
+                                        <h4>Upload Errors</h4>
+                                        <ul>
+                                            <li>Check file format (JPG, JPEG, PNG only)</li>
+                                            <li>Ensure file size is under 16MB</li>
+                                            <li>Try reducing image resolution</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
