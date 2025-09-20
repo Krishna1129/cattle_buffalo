@@ -1,51 +1,56 @@
-from flask import Flask, render_template, request, jsonify
+import os
+import base64
+from io import BytesIO
 import torch
 import torch.nn as nn
 from torchvision import transforms, models
 from PIL import Image
-import os
-import base64
-from io import BytesIO
+from flask import Flask, render_template, request, jsonify, url_for
 
+# Initialize Flask application
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-# Production configuration
-if os.environ.get('FLASK_ENV') == 'production':
-    app.config['DEBUG'] = False
-    app.config['TESTING'] = False
-    # Ensure static files are served
-    app.config['PREFERRED_URL_SCHEME'] = 'https'
-else:
-    app.config['DEBUG'] = True
+# Basic Configuration
+app.config.update(
+    MAX_CONTENT_LENGTH=16 * 1024 * 1024,  # 16MB max file size
+    UPLOAD_FOLDER=os.path.join('static', 'uploads'),
+    SECRET_KEY=os.urandom(24),
+    DEBUG=False,
+    TESTING=False
+)
 
-# Ensure the upload directory exists
+# Ensure upload directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# -----------------------------
 # Model Configuration
-# -----------------------------
-mean = [0.485, 0.456, 0.406]
-std = [0.229, 0.224, 0.225]
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean, std)
-])
+class ModelConfig:
+    MEAN = [0.485, 0.456, 0.406]
+    STD = [0.229, 0.224, 0.225]
+    IMAGE_SIZE = (224, 224)
+    
+    # Class names
+    CATTLE_CLASSES = ['Buffalo', 'Cow', 'None']
+    BREED_NAMES = [
+        'Alambadi', 'Amritmahal', 'Ayrshire', 'Banni', 'Bargur', 
+        'Bhadawari', 'Brown_Swiss', 'Dangi', 'Deoni', 'Gir', 
+        'Guernsey', 'Hallikar', 'Hariana', 'Holstein_Friesian', 
+        'Jaffrabadi', 'Jersey', 'Kangayam', 'Kankrej', 'Kasargod', 
+        'Kenkatha', 'Kherigarh', 'Khillari', 'Krishna_Valley', 
+        'Malnad_gidda', 'Mehsana', 'Murrah', 'Nagori', 'Nagpuri', 
+        'Nili_Ravi', 'Nimari', 'Ongole', 'Pulikulam', 'Rathi', 
+        'Red_Dane', 'Red_Sindhi', 'Sahiwal', 'Surti', 'Tharparkar', 
+        'Toda', 'Umblachery', 'Vechur'
+    ]
+    
+    @classmethod
+    def get_transform(cls):
+        return transforms.Compose([
+            transforms.Resize(cls.IMAGE_SIZE),
+            transforms.ToTensor(),
+            transforms.Normalize(cls.MEAN, cls.STD)
+        ])
 
-# Class names
-cattle_class_names = ['Buffalo', 'Cow', 'None']
-breed_names = ['Alambadi', 'Amritmahal', 'Ayrshire', 'Banni', 'Bargur', 'Bhadawari', 'Brown_Swiss', 'Dangi', 
-               'Deoni', 'Gir', 'Guernsey', 'Hallikar', 'Hariana', 'Holstein_Friesian', 'Jaffrabadi', 'Jersey', 
-               'Kangayam', 'Kankrej', 'Kasargod', 'Kenkatha', 'Kherigarh', 'Khillari', 'Krishna_Valley', 
-               'Malnad_gidda', 'Mehsana', 'Murrah', 'Nagori', 'Nagpuri', 'Nili_Ravi', 'Nimari', 'Ongole', 
-               'Pulikulam', 'Rathi', 'Red_Dane', 'Red_Sindhi', 'Sahiwal', 'Surti', 'Tharparkar', 'Toda', 
-               'Umblachery', 'Vechur']
-
-# -----------------------------
 # Model Loading Functions
-# -----------------------------
 def load_cattle_model(model_path):
     model = models.resnet18(pretrained=False)
     num_ftrs = model.fc.in_features
