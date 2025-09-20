@@ -12,12 +12,17 @@ app = Flask(__name__)
 
 # Basic Configuration
 app.config.update(
-    MAX_CONTENT_LENGTH=16 * 1024 * 1024,  # 16MB max file size
+    MAX_CONTENT_LENGTH=10 * 1024 * 1024,  # 10MB max file size
     UPLOAD_FOLDER=os.path.join('static', 'uploads'),
     SECRET_KEY=os.urandom(24),
     DEBUG=False,
-    TESTING=False
+    TESTING=False,
+    SEND_FILE_MAX_AGE_DEFAULT=0
 )
+
+# Configure logging
+import logging
+app.logger.setLevel(logging.INFO)
 
 # Ensure upload directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -105,19 +110,32 @@ def home():
 def predict():
     """Handle image upload and prediction"""
     try:
+        app.logger.info('Received prediction request')
+        
         if 'file' not in request.files:
+            app.logger.warning('No file in request')
             return jsonify({'error': 'No file uploaded'}), 400
         
         file = request.files['file']
         if file.filename == '':
+            app.logger.warning('Empty filename')
             return jsonify({'error': 'No file selected'}), 400
         
         if not file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+            app.logger.warning(f'Invalid file format: {file.filename}')
             return jsonify({'error': 'Invalid file format'}), 400
 
         # Read and process the image
         image_data = file.read()
-        image = Image.open(BytesIO(image_data)).convert('RGB')
+        if len(image_data) > 10 * 1024 * 1024:  # 10MB
+            app.logger.warning('File too large')
+            return jsonify({'error': 'File too large'}), 400
+
+        try:
+            image = Image.open(BytesIO(image_data)).convert('RGB')
+        except Exception as e:
+            app.logger.error(f'Error processing image: {str(e)}')
+            return jsonify({'error': 'Invalid image file'}), 400
         
         # Make predictions
         cattle_type, cattle_confidence = predict_cattle(image)

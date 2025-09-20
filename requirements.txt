@@ -10,6 +10,7 @@ itsdangerous==2.0.1
 click==8.0.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
+gevent==22.10.2
 
 # Install requirements using:
 # pip install -r requirements.txt
