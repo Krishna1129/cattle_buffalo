@@ -67,29 +67,31 @@ def load_breed_model(model_path, num_classes):
     model.eval()
     return model
 
-# Load models globally
+# Initialize models
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 cattle_model = load_cattle_model(os.path.join(BASE_DIR, 'models', 'best_cow_buffalo_none_classifier.pth'))
-breed_model = load_breed_model(os.path.join(BASE_DIR, 'models', 'breed_classifier.pth'), len(breed_names))
+breed_model = load_breed_model(os.path.join(BASE_DIR, 'models', 'breed_classifier.pth'), len(ModelConfig.BREED_NAMES))
 
 # -----------------------------
 # Prediction Functions
 # -----------------------------
 def predict_cattle(image):
+    transform = ModelConfig.get_transform()
     image = transform(image).unsqueeze(0)
     with torch.no_grad():
         output = cattle_model(image)
         probs = torch.softmax(output, dim=1)
         confidence, predicted = torch.max(probs, 1)
-        return cattle_class_names[predicted.item()], confidence.item()
+        return ModelConfig.CATTLE_CLASSES[predicted.item()], confidence.item()
 
 def predict_breed(image):
+    transform = ModelConfig.get_transform()
     image = transform(image).unsqueeze(0)
     with torch.no_grad():
         output = breed_model(image)
         probs = torch.softmax(output, dim=1)
         confidence, predicted = torch.max(probs, 1)
-        return breed_names[predicted.item()], confidence.item()
+        return ModelConfig.BREED_NAMES[predicted.item()], confidence.item()
 
 # -----------------------------
 # Routes
