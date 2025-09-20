@@ -15,6 +15,7 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 if os.environ.get('FLASK_ENV') == 'production':
     app.config['DEBUG'] = False
     app.config['TESTING'] = False
+    app.config['SERVER_NAME'] = os.environ.get('RENDER_EXTERNAL_URL', '').replace('https://', '').replace('http://', '')
 else:
     app.config['DEBUG'] = True
 
