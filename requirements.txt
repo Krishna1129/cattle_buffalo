@@ -1,0 +1,7 @@
+streamlit==1.25.0        # For building the web application
+torch==2.0.1             # PyTorch for deep learning
+torchvision==0.15.2      # TorchVision for pretrained models and transformations
+Pillow==9.4.0            # For image handling and manipulation
+
+
+#pip install -r requirements.txt
